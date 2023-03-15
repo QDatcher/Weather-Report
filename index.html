@@ -10,23 +10,69 @@
         <link rel="stylesheet" href="./assets/css/reset.css">
         <link rel="stylesheet" href="./assets/css/style.css">
     </head>
+    <header>
+        <h1>Weather Forcast Reports</h1>
+    </header>
     <body>
-        <section id="search-container">
-            <h2>Search For A City</h2>
-            <div>
-                <input type="text" value="">
-                <button></button>
-            </div>
-            <hr>
-            <div id="suggestion-continer"></div>
+        <div id="site-container">
+            <section id="search-container">
+                <h2>Search For A City</h2>
+                <div>
+                    <input type="text" value="">
+                    <button></button>
+                </div>
+                <hr>
+                <div id="suggestion-continer"></div>
 
-        </section>
-        <section id="forcast-section">
-            <div id="featured-city"></div>
-            <div id="weekly-forecast">
-                <h4>5-Day Forcast:</h4>
-            </div>
-        </section>
+            </section>
+            <section id="forcast-section">
+                <div id="featured-city">
+                    <h3 id="current-city-title">Washington, D.C
+
+                        <i></i>
+                    </h3>
+                    <p>Temp:</p>
+                    <p>Wind:</p>
+                    <p>Humidity:</p>
+                </div>
+                <div id="weekly-forecast">
+                    <h4>5-Day Forcast:</h4>
+                    <div id="cards-container">
+                        <div class="card">
+                            <h5>DAte</h5>
+                            <i></i>
+                            <p>Temp:</p>
+                            <p>Wind:</p>
+                            <p>Humidity:</p>
+                        </div>
+                        <div class="card">
+                            <h5>Date</h5>
+                            <p>Temp:</p>
+                            <p>Wind:</p>
+                            <p>Humidity:</p>
+                        </div>
+                        <div class="card">
+                            <h5>Date</h5>
+                            <p>Temp:</p>
+                            <p>Wind:</p>
+                            <p>Humidity:</p>
+                        </div>
+                        <div class="card">
+                            <h5>Date</h5>
+                            <p>Temp:</p>
+                            <p>Wind:</p>
+                            <p>Humidity:</p>
+                        </div>
+                        <div class="card">
+                            <h5>Date</h5>
+                            <p>Temp:</p>
+                            <p>Wind:</p>
+                            <p>Humidity:</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
         <script src="./assets/js/script.js"></script>
     </body>
 </html>

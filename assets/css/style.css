@@ -1,0 +1,46 @@
+
+
+header {
+    margin: 5px 10px;
+    height: 10vh;
+    
+    background-image: linear-gradient(to right, black , darkblue, blue, darkblue, black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border:  2px solid black;
+}
+
+header h1 {
+    text-align: center;
+    font-size: 36px;
+    width: 100%;
+    margin: auto auto;
+}
+body {
+    display: block;
+    justify-content: space-between;
+    margin: 20px auto;
+}
+
+#site-container {
+    display: flex;
+}
+
+#search-container {
+    width: 30%;
+    background-color: aqua;
+    margin: 0 auto;
+}
+
+#forcast-section {
+    background-color: aquamarine;
+    max-width: 60%;
+    margin: 0 auto;
+}
+
+#cards-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
