@@ -1,26 +1,26 @@
+var latitude;
 var longitude;
-var longitude;
-var apiKey;
+var apiKey = "4ff9755a40b1f93357da2abcf7c704dc";
 var city;
 var stateCode;
 var countryCode;
 var limit;
 var apiGettingWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
-var apiGettingLocation = `http://api.openweathermap.org/geo/1.0/direct?q=${city},${stateCode},${countryCode}&limit=${limit}&appid=${apiKey}`
+var apiGettingLocation = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`
+var searchButton = document.querySelector('#searchButton');
 
 
 
 
 
-
-const getApi(url) => {
+const getApi = (url) => {
     fetch(url)
     .then(function (response) {
         console.log(response)
       console.log(response.status);
       //  Conditional for the the response.status.
       if (response.status !== 200) {
-    
+        
        
       } else{
         return response.json();
@@ -33,3 +33,19 @@ const getApi(url) => {
       console.log(data)
     });
 }
+// getApi(`http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=${apiKey}`)
+
+const searchForGeography = (cityChosen) => {
+  var apiGettingLocation = `http://api.openweathermap.org/geo/1.0/direct?q=${cityChosen}&limit=5&appid=${apiKey}`
+  const results = getApi(apiGettingLocation)
+  console.log(results)
+  return results;
+}
+
+const searchForWeather = (longitude, latitude) => {
+  var apiGettingWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+
+}
+
+searchForGeography('toronto')
+
