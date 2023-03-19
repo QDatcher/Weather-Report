@@ -1,5 +1,12 @@
-const baseApiUrl = 'https://api.openweathermap.org';
-
+var longitude;
+var longitude;
+var apiKey;
+var city;
+var stateCode;
+var countryCode;
+var limit;
+var apiGettingWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+var apiGettingLocation = `http://api.openweathermap.org/geo/1.0/direct?q=${city},${stateCode},${countryCode}&limit=${limit}&appid=${apiKey}`
 
 
 
