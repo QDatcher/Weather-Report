@@ -1,5 +1,5 @@
 
-
+/* This is the header and title of the website */
 header {
     margin: 5px 10px;
     height: 10vh;
@@ -14,10 +14,12 @@ header {
 header h1 {
     text-align: center;
     color: orange;
-    font-size: 36px;
+    font-size: 50px;
     width: 100%;
-    margin: auto auto;
+    margin: 5px auto;
 }
+
+/* Main section of the website */
 body {
     display: block;
     justify-content: space-between;
@@ -35,17 +37,48 @@ body {
     margin: 20px 20px;
 }
 
+#search-container h2 {
+    font-size: 25px;
+    margin: 15px auto;
+    text-align: center;
+}
+
+#search-container hr{
+    color:black;
+    background-color: darkslategrey;
+}
+
+#search-container div {
+    margin: 15px;
+}
+
+#search-container div input {
+    margin: 10px auto;
+    width: 100%;
+}
+
+#search-container div button {
+    display: block;
+}
+
 #forcast-section {
-    background-color: aquamarine;
     width: 60%;
     margin: 20px 30px;
     line-height: 2;
 }
 
 #featured-city {
+    display: grid;
     width: 100%;
     border: 1px solid black;
+    padding-left: 20px;
+    height: 300px
 }
+
+#current-city-title {
+    font-size: 26px;
+}
+
 
 #cards-container {
     display: flex;
@@ -55,6 +88,8 @@ body {
 }
 
 .card {
-    background-color: darkblue;
+    background-color: #323D4F;
     width: 150px;
+    color: aliceblue;
+    padding-left: 5px;
 }
