@@ -8,6 +8,7 @@ var limit;
 var apiGettingWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
 var apiGettingLocation = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`
 var searchButton = document.querySelector('#searchButton');
+var searchInput = document.querySelector('#searchInput')
 
 
 
@@ -47,5 +48,40 @@ const searchForWeather = (longitude, latitude) => {
 
 }
 
-searchForGeography('toronto')
+const selectCity = (e) =>{
+  var city = searchInput.value.trim()
+  console.log(city)
 
+  var cityLocation = searchForGeography(city)
+  console.log(cityLocation)
+}
+
+
+$(function () {
+  var skillNames = [
+    'Bootstrap',
+    'C',
+    'C++',
+    'CSS',
+    'Express.js',
+    'Git',
+    'HTML',
+    'Java',
+    'JavaScript',
+    'jQuery',
+    'JSON',
+    'MySQL',
+    'Node.js',
+    'NoSQL',
+    'PHP',
+    'Python',
+    'React',
+    'Ruby',
+  ];
+  $('#searchInput').autocomplete({
+    source: skillNames,
+  });
+});
+searchForGeography('tokyo')
+
+searchButton.addEventListener('click', selectCity)

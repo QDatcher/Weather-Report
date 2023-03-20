@@ -67,9 +67,15 @@ body {
     line-height: 2;
 }
 
-#featured-city {
+.currentcity-display {
     display: grid;
     width: 100%;
+   
+}
+
+#featured-city {
+    display: flex;
+    justify-content: space-between;
     border: 1px solid black;
     padding-left: 20px;
     height: 300px
@@ -79,6 +85,15 @@ body {
     font-size: 26px;
 }
 
+.MrWeather {
+    display: inline;
+    margin-right: 50px;
+
+}
+.MrWeather img {
+    width: 100%;
+    display: none;
+}
 
 #cards-container {
     display: flex;
