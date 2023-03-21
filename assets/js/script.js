@@ -10,12 +10,12 @@ var apiGettingLocation = `http://api.openweathermap.org/geo/1.0/direct?q=${city}
 var searchButton = document.querySelector('#searchButton');
 var searchInput = document.querySelector('#searchInput')
 
+let myResults
+// const
 
 
-
-
-const getApi = (url) => {
-    fetch(url)
+async function getApi (url) {
+   const results = await fetch(url)
     .then(function (response) {
         console.log(response)
       console.log(response.status);
@@ -28,13 +28,13 @@ const getApi = (url) => {
       }
 
     })
-    .then(function (data) {
+    .then(function (weather) {
       // Make sure to look at the response in the console and read how 404 response is structured.
-      console.log(data);
-      console.log(data)
+      console.log(weather);
+      return weather;
     });
+    return results
 }
-// getApi(`http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=${apiKey}`)
 
 const searchForGeography = (cityChosen) => {
   var apiGettingLocation = `http://api.openweathermap.org/geo/1.0/direct?q=${cityChosen}&limit=5&appid=${apiKey}`
@@ -54,34 +54,16 @@ const selectCity = (e) =>{
 
   var cityLocation = searchForGeography(city)
   console.log(cityLocation)
+  console.log(myResults)
+
+  
+}
+
+const selectDefaultCity = (e) => {
+  const citySelected = e.target.getAttribute('data-city')
 }
 
 
-$(function () {
-  var skillNames = [
-    'Bootstrap',
-    'C',
-    'C++',
-    'CSS',
-    'Express.js',
-    'Git',
-    'HTML',
-    'Java',
-    'JavaScript',
-    'jQuery',
-    'JSON',
-    'MySQL',
-    'Node.js',
-    'NoSQL',
-    'PHP',
-    'Python',
-    'React',
-    'Ruby',
-  ];
-  $('#searchInput').autocomplete({
-    source: skillNames,
-  });
-});
-searchForGeography('tokyo')
+
 
 searchButton.addEventListener('click', selectCity)
