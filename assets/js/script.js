@@ -18,10 +18,8 @@ const searchForGeography = (cityChosen) => {
   fetch(apiGettingLocationUrl)
     .then(function (response) {
         console.log(response)
-      console.log(response.status);
       //  Conditional for the the response.status.
       if (response.status !== 200) {
-        console.log(response.status)
        
       } else{
         return response.json();
@@ -29,7 +27,6 @@ const searchForGeography = (cityChosen) => {
 
     })
     .then(function (weather) {
-      console.log(weather[0])
       return weather[0];
     }).then(function(location){
       console.log(location)
@@ -70,7 +67,6 @@ const searchCurrentWeather = (longitude, latitude) => {
 }
 
 const updateCurrentWeather = (weatherInfo) => {
-  console.log(weatherInfo.icon)
   var {currentTemp, lowTemp, highTemp, icon, windSpeed, humidity, cityName} = weatherInfo;
   var currentCityName = document.getElementById('current-city-title');
   var overAllTemp = document.getElementById('overall-temp');
@@ -79,18 +75,17 @@ const updateCurrentWeather = (weatherInfo) => {
   var currentIcon = document.getElementById('current-icon');
   var highTempFH = kelvin2Fahrenheit(highTemp);
   var lowTempFH = kelvin2Fahrenheit(lowTemp)
+  var currentTempFH = kelvin2Fahrenheit(currentTemp)
   var iconUrl =  `https://openweathermap.org/img/wn/${icon}@2x.png`;
   currentCityName.textContent = cityName;
-  overAllTemp.textContent = `Temp: H: ${highTempFH}\u00B0 L: ${lowTempFH}\u00B0`;
+  overAllTemp.textContent = `Current Temp: ${currentTempFH}\u00B0 (H: ${highTempFH}\u00B0 L: ${lowTempFH}\u00B0)`;
   currentWind.textContent = 'Wind: ' + windSpeed + 'MPH';
   currentHumidity.textContent = 'Humidity: ' + humidity + '%';
   
-console.log(iconUrl)
-
   currentIcon.setAttribute('src', iconUrl)
+  currentIcon.setAttribute('alt', 'iconUrl')
   currentIcon.style.display = 'block';
 
-  console.log(currentIcon)
 }
 
 const searchWeather5Days = (longitude, latitude) => {
@@ -103,12 +98,41 @@ const searchWeather5Days = (longitude, latitude) => {
       return response.json();
     }
 
+  }).then(function(weatherObject){
+    return weatherObject.list
   })
-  .then(function (weather) {
-    console.log(weather)
+  .then(function (weatherList) {
+    console.log(weatherList)
+    var weather5days = [];
+    for(let i = 1; i <= 5; i++ ){
+      var tommorrow = dayjs().add(1, 'day').format('YYYY-MM-DD 12:00:00')
+      for(let j = 0; j < weatherList.length; i++){
+        if(tommorrow == weatherList[j].dt_txt){
+          weather5days.push(weatherList[j])
+        }
+      }
+      
+    }
+    console.log(weather5days)
+    console.log(1)
+    // var weatherFor5days {
 
+    // }
 
   });
+}
+
+const update5DayForcast = (weather5Days) => {
+  var container = document.getElementById('card-container')
+  for(let i = 0; i < container.children.length; i++){
+    var dayContainer = container[i];
+    var weatherInfo = weather5Days[i];
+    var date = dayContainer.querySelector('h5');
+    var temp = dayContainer.querySelector('.5temp')
+    var wind = dayContainer.querySelector('.5wind')
+    var hum = dayContainer.querySelector('.5hum')
+
+  }
 }
 
 const selectCity = (e) =>{
@@ -124,7 +148,6 @@ const selectCity = (e) =>{
 const selectDefaultCity = (e) => {
   const citySelected = e.target.getAttribute('data-city')
 }
-
 
 
 

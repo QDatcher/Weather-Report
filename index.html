@@ -18,6 +18,11 @@
         <link
         rel="stylesheet"
         href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+        <script
+        src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
+        integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
+        crossorigin="anonymous"
+      ></script>
         <link rel="stylesheet" href="./assets/css/style.css">
     </head>
     <header>
@@ -49,14 +54,17 @@
                 <div id="featured-city">
 
                     <div class="currentcity-display">
-                        <h3 id="current-city-title">Port St. Lucie, Florida
+                        <div class="currentTitle-container">
+                            <h3 id="current-city-title">Port St. Lucie, Florida
 
+                               
+                            
+                            </h3>
                             <i></i>
                             <div>
                                 <img id="current-icon" src="https://openweathermap.org/img/wn/04d@2x.png">
                             </div>
-                        </h3>
-
+                        </div>
                     <p id="overall-temp">Temp:</p>
                     <p id="current-wind">Wind:</p>
                     <p id="current-humidity">Humidity:</p>                        
@@ -67,37 +75,51 @@
                 </div>
                 <div id="weekly-forecast">
                     <h4>5-Day Forcast:</h4>
-                    <div id="cards-container">
+                    <div id="card-container">
                         <div class="card">
-                            <h5>Date</h5>
-                            <i></i>
-                            <p>Temp:</p>
-                            <p>Wind:</p>
-                            <p>Humidity:</p>
+                            <div>
+                                <h5>Date</h5>
+                                <img src=""/>
+                            </div>
+                            <p class="5temp">Temp:</p>
+                            <p class="5wind">Wind:</p>
+                            <p class="5hum">Humidity:</p>
                         </div>
                         <div class="card">
-                            <h5>Date</h5>
-                            <p>Temp:</p>
-                            <p>Wind:</p>
-                            <p>Humidity:</p>
+                            <div>
+                                <h5>Date</h5>
+                                <img src=""/>
+                            </div>
+                            <p class="5temp">Temp:</p>
+                            <p class="5wind">Wind:</p>
+                            <p class="5hum">Humidity:</p>
                         </div>
                         <div class="card">
-                            <h5>Date</h5>
-                            <p>Temp:</p>
-                            <p>Wind:</p>
-                            <p>Humidity:</p>
+                            <div>
+                                <h5>Date</h5>
+                                <img src=""/>
+                            </div>
+                            <p class="5temp">Temp:</p>
+                            <p class="5wind">Wind:</p>
+                            <p class="5hum">Humidity:</p>
                         </div>
                         <div class="card">
-                            <h5>Date</h5>
-                            <p>Temp:</p>
-                            <p>Wind:</p>
-                            <p>Humidity:</p>
+                            <div>
+                                <h5>Date</h5>
+                                <img src=""/>
+                            </div>
+                            <p class="5temp">Temp:</p>
+                            <p class="5wind">Wind:</p>
+                            <p class="5hum">Humidity:</p>
                         </div>
                         <div class="card">
-                            <h5>Date</h5>
-                            <p>Temp:</p>
-                            <p>Wind:</p>
-                            <p>Humidity:</p>
+                            <div>
+                                <h5>Date</h5>
+                                <img src=""/>
+                            </div>
+                            <p class="5temp">Temp:</p>
+                            <p class="5wind">Wind:</p>
+                            <p class="5hum">Humidity:</p>
                         </div>
                     </div>
                 </div>
