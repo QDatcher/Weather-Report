@@ -91,14 +91,24 @@ body {
     font-size: 26px;
 }
 
-.MrWeather {
+.icon {
+    max-width: 100px;    
+}
+
+#current-icon {
+    max-width: 100%;
+}
+
+#MrWeather {
     display: inline;
     margin-right: 50px;
-
+    position: relative;
+    right: 0;
+    bottom: 0;
 }
-.MrWeather img {
+
+#MrWeather img {
     width: 100%;
-    display: none;
 }
 
 #card-container {

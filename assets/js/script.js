@@ -3,9 +3,10 @@ var apiKey = "4ff9755a40b1f93357da2abcf7c704dc";
 // var apiGettingLocation = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`
 var searchButton = document.querySelector('#searchButton');
 var searchInput = document.querySelector('#searchInput')
-
+var specialWeatherButton = document.getElementById('specialWeather')
 var citiesArr = []
-
+var windSpeed = 10;
+var weatherReporting = false
 const kelvin2Fahrenheit = (temp) => {
   var celcius = temp - 273.15;
   var fahrenheit = (celcius * 1.8) + 32;
@@ -31,14 +32,14 @@ const searchForGeography = (cityChosen) => {
       return weather[0];
     }).then(function(location){
       console.log(location)
-      var {lon, lat} = location;
-      searchCurrentWeather(lon, lat)
+      var {lon, lat, name} = location;
+      searchCurrentWeather(lon, lat, name)
       searchWeather5Days(lon, lat)
     })
 }
 
 
-const searchCurrentWeather = (longitude, latitude) => {
+const searchCurrentWeather = (longitude, latitude, name) => {
   var apiGettingWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
   // getApi(apiGettingWeatherUrl).then(function(weather){
   //   console.log(weather)
@@ -54,6 +55,7 @@ const searchCurrentWeather = (longitude, latitude) => {
 
     })
     .then(function (weather) {
+      console.log(weather)
       var weatherInfo = {
         currentTemp: weather.main.temp,
         lowTemp: weather.main.temp_min,
@@ -61,8 +63,9 @@ const searchCurrentWeather = (longitude, latitude) => {
         icon: weather.weather[0].icon,
         windSpeed: weather.wind.speed,
         humidity: weather.main.humidity,
-        cityName: weather.name,
+        cityName: name
       }
+      console.log(weatherInfo.cityName)
       updateCurrentWeather(weatherInfo)
     });
 }
@@ -106,7 +109,7 @@ const searchWeather5Days = (longitude, latitude) => {
     console.log(weatherList)
     var weather5days = [];
     for(let i = 0; i < 5; i++ ){
-      var tommorrow = dayjs().add(1 + i, 'day').format('YYYY-MM-DD 12:00:00')
+      var tommorrow = dayjs().add(1 + i, 'day').format('YYYY-MM-DD 00:00:00')
       for(let j = 0; j < weatherList.length; j++){
         if(tommorrow == weatherList[j].dt_txt){
           weather5days.push(weatherList[j])
@@ -156,12 +159,26 @@ const loadCityButtons = () => {
   var recentlySavedcities = JSON.parse(localStorage.getItem('cities'));
 
   for(let index = 0; index < buttonContainer.children.length; index++){
-    buttonContainer.children[index].textContent = recentlySavedcities[index]
+    if(recentlySavedcities[index] != null){
+      buttonContainer.children[index].style.display = 'block';
+      buttonContainer.children[index].textContent = recentlySavedcities[index]
+      buttonContainer.children[index].addEventListener('click', previousSearchSelect)
+    } else {
+      buttonContainer.children[index].style.display = 'none';
+    }
+   
   }
 }
 
 const selectCity = (e) =>{
+  weatherReporting = false;
+  var MrWeather = document.getElementById('MrWeather')
+  MrWeather.style.display = 'none';
   var city = searchInput.value.trim()
+
+  if(city == ''){
+    return
+  }
 
   var savedCities = JSON.parse(localStorage.getItem('cities'));
 
@@ -193,6 +210,59 @@ const selectDefaultCity = (e) => {
   const citySelected = e.target.getAttribute('data-city')
 }
 
+const previousSearchSelect = (e) => {
+  weatherReporting = false;
+  var MrWeather = document.getElementById('MrWeather')
+  MrWeather.style.display = 'none';
+  var citySelected = e.target.textContent
+  searchForGeography(citySelected)
+}
 
-loadCityButtons()
+const specialWeatherReport = (e) => {
+  weatherReporting = true;
+  var MrWeather = document.getElementById('MrWeather')
+  MrWeather.style.display = 'block';
+  var currentCityName = document.getElementById('current-city-title');
+  var overAllTemp = document.getElementById('overall-temp');
+  var currentWind = document.getElementById('current-wind');
+  var currentHumidity = document.getElementById('current-humidity');
+  var currentIcon = document.getElementById('current-icon');
+
+  currentCityName.textContent ='Port St. Lucie, Florida';
+  overAllTemp.textContent = 'Temp: ∞';
+  currentHumidity.textContent = 'Humidity: ∞';
+  setTime()
+
+  currentIcon.setAttribute('src', './assets/imgs/frog.png')
+
+}
+
+function setTime() {
+  // Sets interval in variable
+  var timerInterval = setInterval(function() {
+    var currentWind = document.getElementById('current-wind')
+    var windSpeed5 = document.querySelectorAll('p.wind5')
+    for(let index = 0; index < windSpeed5.length; index++){
+      windSpeed5[index].textContent = 'WindSpeed:' + windSpeed + " MPH";
+    }
+    currentWind.textContent = 'WindSpeed:' + windSpeed + " MPH"; 
+    windSpeed = windSpeed * 10;
+
+    if(weatherReporting == false){
+      clearInterval(timerInterval);
+    }
+    
+
+  }, 100);
+}
+
+var savedCitiesPageLoad = JSON.parse(localStorage.getItem('cities'))
+if(savedCitiesPageLoad != null){
+  loadCityButtons()
+}
+
+
+
 searchButton.addEventListener('click', selectCity)
+specialWeatherButton.addEventListener('click', specialWeatherReport)
+
