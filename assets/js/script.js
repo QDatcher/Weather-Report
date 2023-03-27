@@ -233,7 +233,21 @@ const specialWeatherReport = (e) => {
   currentHumidity.textContent = 'Humidity: ∞';
   setTime()
 
+
   currentIcon.setAttribute('src', './assets/imgs/frog.png')
+  
+  var allTemp5 = document.querySelectorAll('.temp5');
+  var allHum5 = document.querySelectorAll('.hum5');
+  var allicon5 = document.querySelectorAll('.icon5');
+  console.log(allicon5)
+  for(let index = 0; index < allTemp5.length; index++){
+    allTemp5[index].textContent = 'Temp: ∞'
+    allHum5[index].textContent = 'Humidity: ∞'
+    allicon5[index].setAttribute('src', './assets/imgs/frog.png')
+  }
+
+
+
 
 }
 
