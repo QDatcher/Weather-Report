@@ -4,6 +4,7 @@ var apiKey = "4ff9755a40b1f93357da2abcf7c704dc";
 var searchButton = document.querySelector('#searchButton');
 var searchInput = document.querySelector('#searchInput')
 
+var citiesArr = []
 
 const kelvin2Fahrenheit = (temp) => {
   var celcius = temp - 273.15;
@@ -104,42 +105,85 @@ const searchWeather5Days = (longitude, latitude) => {
   .then(function (weatherList) {
     console.log(weatherList)
     var weather5days = [];
-    for(let i = 1; i <= 5; i++ ){
-      var tommorrow = dayjs().add(1, 'day').format('YYYY-MM-DD 12:00:00')
-      for(let j = 0; j < weatherList.length; i++){
+    for(let i = 0; i < 5; i++ ){
+      var tommorrow = dayjs().add(1 + i, 'day').format('YYYY-MM-DD 12:00:00')
+      for(let j = 0; j < weatherList.length; j++){
         if(tommorrow == weatherList[j].dt_txt){
           weather5days.push(weatherList[j])
         }
       }
       
     }
-    console.log(weather5days)
-    console.log(1)
-    // var weatherFor5days {
 
-    // }
-
+    update5DayForcast(weather5days)
   });
 }
 
 const update5DayForcast = (weather5Days) => {
   var container = document.getElementById('card-container')
+  console.log(container)
   for(let i = 0; i < container.children.length; i++){
-    var dayContainer = container[i];
+    var dateText = dayjs().add(1 + i, 'day').format('MM-DD-YYYY')
+    var dayContainer = container.children[i];
+    console.log(dayContainer)
     var weatherInfo = weather5Days[i];
-    var date = dayContainer.querySelector('h5');
-    var temp = dayContainer.querySelector('.5temp')
-    var wind = dayContainer.querySelector('.5wind')
-    var hum = dayContainer.querySelector('.5hum')
+    console.log(weatherInfo)
+    var date = dayContainer.querySelector('div').querySelector('h5')
+    var icon = dayContainer.querySelector('div').querySelector('img');
+    var temp = dayContainer.querySelector('.temp5')
+    var wind = dayContainer.querySelector('.wind5')
+    var hum = dayContainer.querySelector('.hum5')
+    var iconUrls =  `https://openweathermap.org/img/wn/${weatherInfo.weather[0].icon}@2x.png`;
+    var highTempFH5 = kelvin2Fahrenheit(weatherInfo.main.temp_max)
+    var lowTempFH5 =kelvin2Fahrenheit(weatherInfo.main.temp_min)
+    var windSpeed5 = weatherInfo.wind.speed;
+    var humtext =weatherInfo.main.humidity; 
+    console.log(weatherInfo.weather[0].icon)
 
+    icon.setAttribute('src', iconUrls)
+    icon.setAttribute('alt', weatherInfo.weather[0].main)
+    date.textContent = dateText
+    temp.textContent = `H: ${highTempFH5}\u00B0 L: ${lowTempFH5}\u00B0`
+    wind.textContent = 'Wind: ' + windSpeed5 + 'MPH'
+    hum.textContent = 'Humidity: ' + humtext + '%';
+
+  }
+}
+
+const loadCityButtons = () => {
+  var buttonContainer = document.getElementById('suggestion-container');
+  console.log(buttonContainer)
+  var recentlySavedcities = JSON.parse(localStorage.getItem('cities'));
+
+  for(let index = 0; index < buttonContainer.children.length; index++){
+    buttonContainer.children[index].textContent = recentlySavedcities[index]
   }
 }
 
 const selectCity = (e) =>{
   var city = searchInput.value.trim()
 
+  var savedCities = JSON.parse(localStorage.getItem('cities'));
+
+  if(citiesArr.length == 0 && savedCities != null){
+    citiesArr = citiesArr.concat(savedCities)
+    
+} 
+
+// var found = savedCities.find(possiblecity => possiblecity == city)
+
+// if(found){
+  
+// } else {
+//   citiesArr.unshift(city)
+// }
+  citiesArr.unshift(city)
+
+console.log(citiesArr)
+localStorage.setItem('cities', JSON.stringify(citiesArr))
 
   searchForGeography(city)
+  loadCityButtons()
 
 
   
@@ -150,5 +194,5 @@ const selectDefaultCity = (e) => {
 }
 
 
-
+loadCityButtons()
 searchButton.addEventListener('click', selectCity)
