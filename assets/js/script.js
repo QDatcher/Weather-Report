@@ -15,7 +15,7 @@ const kelvin2Fahrenheit = (temp) => {
 }
 //This will search for the long lat and official name of the city we sby use of an api then calls functions to access the weather info
 const searchForGeography = (cityChosen) => {
-  var apiGettingLocationUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityChosen}&limit=5&appid=${apiKey}`
+  var apiGettingLocationUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityChosen}&limit=5&appid=${apiKey}`
   // getApi(apiGettingLocationUrl)
 
   fetch(apiGettingLocationUrl)
