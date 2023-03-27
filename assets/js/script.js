@@ -1,18 +1,19 @@
+//These are starter varibles needed globally
 var apiKey = "4ff9755a40b1f93357da2abcf7c704dc";
-// var apiGettingWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
-// var apiGettingLocation = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`
 var searchButton = document.querySelector('#searchButton');
 var searchInput = document.querySelector('#searchInput')
 var specialWeatherButton = document.getElementById('specialWeather')
 var citiesArr = []
 var windSpeed = 10;
 var weatherReporting = false
+
+//This convertts kelvin to Fahrenheit
 const kelvin2Fahrenheit = (temp) => {
   var celcius = temp - 273.15;
   var fahrenheit = (celcius * 1.8) + 32;
   return fahrenheit.toFixed(2)
 }
-
+//This will search for the long lat and official name of the city we sby use of an api then calls functions to access the weather info
 const searchForGeography = (cityChosen) => {
   var apiGettingLocationUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityChosen}&limit=5&appid=${apiKey}`
   // getApi(apiGettingLocationUrl)
@@ -31,19 +32,16 @@ const searchForGeography = (cityChosen) => {
     .then(function (weather) {
       return weather[0];
     }).then(function(location){
-      console.log(location)
       var {lon, lat, name} = location;
       searchCurrentWeather(lon, lat, name)
       searchWeather5Days(lon, lat)
     })
 }
 
-
+//This uses the geo info to get the current weather of a city then sends that info to a fucntion taht will display it
 const searchCurrentWeather = (longitude, latitude, name) => {
   var apiGettingWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
-  // getApi(apiGettingWeatherUrl).then(function(weather){
-  //   console.log(weather)
-  // })
+
   fetch(apiGettingWeatherUrl)
     .then(function (response) {
       //  Conditional for the the response.status.
@@ -55,7 +53,6 @@ const searchCurrentWeather = (longitude, latitude, name) => {
 
     })
     .then(function (weather) {
-      console.log(weather)
       var weatherInfo = {
         currentTemp: weather.main.temp,
         lowTemp: weather.main.temp_min,
@@ -65,11 +62,10 @@ const searchCurrentWeather = (longitude, latitude, name) => {
         humidity: weather.main.humidity,
         cityName: name
       }
-      console.log(weatherInfo.cityName)
       updateCurrentWeather(weatherInfo)
     });
 }
-
+//This fucntion displays the weather info in our currentCity section
 const updateCurrentWeather = (weatherInfo) => {
   var {currentTemp, lowTemp, highTemp, icon, windSpeed, humidity, cityName} = weatherInfo;
   var currentCityName = document.getElementById('current-city-title');
@@ -91,7 +87,7 @@ const updateCurrentWeather = (weatherInfo) => {
   currentIcon.style.display = 'block';
 
 }
-
+//This uses the api to see the weather of the next 5 days and sends it to a function to that updates the dom to display that data
 const searchWeather5Days = (longitude, latitude) => {
   var apigettingWeather5Days = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
   fetch(apigettingWeather5Days)
@@ -106,7 +102,6 @@ const searchWeather5Days = (longitude, latitude) => {
     return weatherObject.list
   })
   .then(function (weatherList) {
-    console.log(weatherList)
     var weather5days = [];
     for(let i = 0; i < 5; i++ ){
       var tommorrow = dayjs().add(1 + i, 'day').format('YYYY-MM-DD 00:00:00')
@@ -121,14 +116,12 @@ const searchWeather5Days = (longitude, latitude) => {
     update5DayForcast(weather5days)
   });
 }
-
+//This takes data from the api that it was sent and updates the 5day forecast section
 const update5DayForcast = (weather5Days) => {
   var container = document.getElementById('card-container')
-  console.log(container)
   for(let i = 0; i < container.children.length; i++){
     var dateText = dayjs().add(1 + i, 'day').format('MM-DD-YYYY')
     var dayContainer = container.children[i];
-    console.log(dayContainer)
     var weatherInfo = weather5Days[i];
     console.log(weatherInfo)
     var date = dayContainer.querySelector('div').querySelector('h5')
@@ -141,7 +134,6 @@ const update5DayForcast = (weather5Days) => {
     var lowTempFH5 =kelvin2Fahrenheit(weatherInfo.main.temp_min)
     var windSpeed5 = weatherInfo.wind.speed;
     var humtext =weatherInfo.main.humidity; 
-    console.log(weatherInfo.weather[0].icon)
 
     icon.setAttribute('src', iconUrls)
     icon.setAttribute('alt', weatherInfo.weather[0].main)
@@ -153,13 +145,15 @@ const update5DayForcast = (weather5Days) => {
   }
 }
 
+//This function places the last recent cities you've searched into buttons to click for easy access
 const loadCityButtons = () => {
   var buttonContainer = document.getElementById('suggestion-container');
-  console.log(buttonContainer)
   var recentlySavedcities = JSON.parse(localStorage.getItem('cities'));
 
+
   for(let index = 0; index < buttonContainer.children.length; index++){
-    if(recentlySavedcities[index] != null){
+
+    if(recentlySavedcities[index]){
       buttonContainer.children[index].style.display = 'block';
       buttonContainer.children[index].textContent = recentlySavedcities[index]
       buttonContainer.children[index].addEventListener('click', previousSearchSelect)
@@ -170,6 +164,8 @@ const loadCityButtons = () => {
   }
 }
 
+
+//This takes your input updates it to the most recent search list and begins the process of running the geo search
 const selectCity = (e) =>{
   weatherReporting = false;
   var MrWeather = document.getElementById('MrWeather')
@@ -206,10 +202,7 @@ localStorage.setItem('cities', JSON.stringify(citiesArr))
   
 }
 
-const selectDefaultCity = (e) => {
-  const citySelected = e.target.getAttribute('data-city')
-}
-
+//This function allows previous search buttons to actually take effect by calling the searchForGeography function with the name you previously searched
 const previousSearchSelect = (e) => {
   weatherReporting = false;
   var MrWeather = document.getElementById('MrWeather')
@@ -218,6 +211,7 @@ const previousSearchSelect = (e) => {
   searchForGeography(citySelected)
 }
 
+//Side project for fun lol. Hope you're a JOJO fan
 const specialWeatherReport = (e) => {
   weatherReporting = true;
   var MrWeather = document.getElementById('MrWeather')
@@ -250,7 +244,7 @@ const specialWeatherReport = (e) => {
 
 
 }
-
+//This is for the JOJO stuff
 function setTime() {
   // Sets interval in variable
   var timerInterval = setInterval(function() {
@@ -270,9 +264,19 @@ function setTime() {
   }, 100);
 }
 
+//Loads th
 var savedCitiesPageLoad = JSON.parse(localStorage.getItem('cities'))
 if(savedCitiesPageLoad != null){
   loadCityButtons()
+} else {
+  var searchButtonContainer = document.getElementById('suggestion-container');
+
+
+  for(let index = 0; index < searchButtonContainer.children.length; index++){
+
+      searchButtonContainer.children[index].style.display = 'none'
+   
+  }
 }
 
 
