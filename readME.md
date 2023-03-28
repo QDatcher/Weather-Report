@@ -18,6 +18,7 @@
 ![Front page with 'miami' in the input](assets/imgs/typing.png)
 
 - Once the user clicks the search button the cities weather info will be updated to the DOM
+- Along with that, the previous city that was searched will be added to the previous seach list under the special weather report. The user can click this button to see that cities results again
 
 ![Miami weather info loaded to the site](assets/imgs/miami.png)
 
